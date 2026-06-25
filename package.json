@@ -1,0 +1,188 @@
+{
+  "name": "git-branch-tree",
+  "displayName": "Git Branch Tree",
+  "description": "브랜치 이름의 '/' 를 임의 뎁스 폴더 트리로 펼쳐 보여주고, 클릭하면 체크아웃하는 경량 익스텐션",
+  "version": "0.4.0",
+  "publisher": "zzumbong",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "SCM Providers",
+    "Other"
+  ],
+  "keywords": [
+    "git",
+    "branch",
+    "tree",
+    "checkout",
+    "switch",
+    "branches"
+  ],
+  "galleryBanner": {
+    "color": "#312E81",
+    "theme": "dark"
+  },
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "gitBranchTree",
+          "title": "Branch Tree",
+          "icon": "media/branch-tree.svg"
+        }
+      ]
+    },
+    "views": {
+      "gitBranchTree": [
+        {
+          "id": "gitBranchTree.view",
+          "name": "Branches",
+          "icon": "media/branch-tree.svg"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "gitBranchTree.view",
+        "contents": "현재 워크스페이스에서 git 저장소를 찾지 못했어요.\ngit 저장소가 있는 폴더를 열고 새로고침해 주세요.\n[새로고침](command:gitBranchTree.refresh)"
+      }
+    ],
+    "commands": [
+      {
+        "command": "gitBranchTree.refresh",
+        "title": "새로고침",
+        "category": "Branch Tree",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "gitBranchTree.checkout",
+        "title": "체크아웃",
+        "category": "Branch Tree"
+      },
+      {
+        "command": "gitBranchTree.deleteLocalBranch",
+        "title": "브랜치 삭제 (로컬)",
+        "category": "Branch Tree",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "gitBranchTree.deleteRemoteBranch",
+        "title": "브랜치 삭제 (원격 서버)",
+        "category": "Branch Tree",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "gitBranchTree.fetchPrune",
+        "title": "Fetch + Prune",
+        "category": "Branch Tree",
+        "icon": "$(sync)"
+      },
+      {
+        "command": "gitBranchTree.createBranch",
+        "title": "새 브랜치 생성",
+        "category": "Branch Tree",
+        "icon": "$(add)"
+      },
+      {
+        "command": "gitBranchTree.expandAll",
+        "title": "모두 펼치기",
+        "category": "Branch Tree",
+        "icon": "$(expand-all)"
+      },
+      {
+        "command": "gitBranchTree.loadMoreCommits",
+        "title": "더보기",
+        "category": "Branch Tree"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "gitBranchTree.createBranch",
+          "when": "view == gitBranchTree.view",
+          "group": "navigation@1"
+        },
+        {
+          "command": "gitBranchTree.fetchPrune",
+          "when": "view == gitBranchTree.view",
+          "group": "navigation@2"
+        },
+        {
+          "command": "gitBranchTree.refresh",
+          "when": "view == gitBranchTree.view",
+          "group": "navigation@3"
+        },
+        {
+          "command": "gitBranchTree.expandAll",
+          "when": "view == gitBranchTree.view",
+          "group": "navigation@4"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "gitBranchTree.checkout",
+          "when": "view == gitBranchTree.view && viewItem =~ /^(localBranch|remoteBranch)$/",
+          "group": "1_checkout@1"
+        },
+        {
+          "command": "gitBranchTree.createBranch",
+          "when": "view == gitBranchTree.view && viewItem =~ /^(localBranch|remoteBranch|currentBranch)$/",
+          "group": "2_create@1"
+        },
+        {
+          "command": "gitBranchTree.fetchPrune",
+          "when": "view == gitBranchTree.view && viewItem == remoteSection",
+          "group": "1_fetch@1"
+        },
+        {
+          "command": "gitBranchTree.deleteLocalBranch",
+          "when": "view == gitBranchTree.view && viewItem == localBranch",
+          "group": "7_modification@1"
+        },
+        {
+          "command": "gitBranchTree.deleteRemoteBranch",
+          "when": "view == gitBranchTree.view && viewItem == remoteBranch",
+          "group": "7_modification@1"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "gitBranchTree.checkout",
+          "when": "false"
+        },
+        {
+          "command": "gitBranchTree.deleteLocalBranch",
+          "when": "false"
+        },
+        {
+          "command": "gitBranchTree.deleteRemoteBranch",
+          "when": "false"
+        },
+        {
+          "command": "gitBranchTree.loadMoreCommits",
+          "when": "false"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "package": "node esbuild.js --production",
+    "check-types": "tsc --noEmit",
+    "test": "vitest run",
+    "vsix": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.2.0",
+    "esbuild": "^0.23.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0"
+  }
+}
