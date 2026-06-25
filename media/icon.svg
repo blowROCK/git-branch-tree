@@ -1,0 +1,46 @@
+<svg width="512" height="512" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="6" y1="4" x2="120" y2="126" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6A6CFF"/>
+      <stop offset="0.55" stop-color="#7C4DFF"/>
+      <stop offset="1" stop-color="#B14BFF"/>
+    </linearGradient>
+    <radialGradient id="hi" cx="0.3" cy="0.22" r="0.85">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="3.2" result="b"/>
+      <feMerge>
+        <feMergeNode in="b"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="128" height="128" rx="30" fill="url(#bg)"/>
+  <rect x="0" y="0" width="128" height="128" rx="30" fill="url(#hi)"/>
+
+  <!-- 트리 연결선(노드 뒤) -->
+  <g stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M40 30 V96"/>
+    <path d="M40 52 H64"/>
+    <path d="M64 52 V86"/>
+    <path d="M64 70 H88"/>
+    <path d="M64 86 H88"/>
+    <path d="M40 96 H64"/>
+  </g>
+
+  <!-- 현재 브랜치(초록) 글로우 -->
+  <circle cx="88" cy="86" r="12" fill="#34F0A8" opacity="0.5" filter="url(#glow)"/>
+
+  <!-- 노드 -->
+  <g fill="#FFFFFF">
+    <circle cx="40" cy="30" r="7.5"/>
+    <circle cx="64" cy="52" r="7"/>
+    <circle cx="88" cy="70" r="7"/>
+    <circle cx="64" cy="96" r="7"/>
+  </g>
+  <!-- 현재 브랜치 노드 -->
+  <circle cx="88" cy="86" r="8" fill="#2BE39B" stroke="#FFFFFF" stroke-width="2.5"/>
+</svg>

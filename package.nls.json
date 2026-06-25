@@ -1,0 +1,13 @@
+{
+  "description": "Show git branches as a folder tree split by '/', with click-to-checkout, commit preview, delete, new branch and fetch+prune.",
+  "view.branches": "Branches",
+  "welcome": "No git repository found in this workspace.\nOpen a folder with a git repo and refresh.\n[Refresh](command:gitBranchTree.refresh)",
+  "cmd.refresh": "Refresh",
+  "cmd.checkout": "Checkout",
+  "cmd.deleteLocal": "Delete Branch (Local)",
+  "cmd.deleteRemote": "Delete Branch (Remote)",
+  "cmd.fetchPrune": "Fetch + Prune",
+  "cmd.createBranch": "New Branch",
+  "cmd.expandAll": "Expand All",
+  "cmd.loadMore": "Show More"
+}

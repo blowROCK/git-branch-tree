@@ -1,10 +1,14 @@
 {
   "name": "git-branch-tree",
   "displayName": "Git Branch Tree",
-  "description": "브랜치 이름의 '/' 를 임의 뎁스 폴더 트리로 펼쳐 보여주고, 클릭하면 체크아웃하는 경량 익스텐션",
-  "version": "0.4.0",
+  "description": "%description%",
+  "version": "0.5.0",
   "publisher": "zzumbong",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/blowROCK/git-branch-tree.git"
+  },
   "engines": {
     "vscode": "^1.90.0"
   },
@@ -24,6 +28,8 @@
     "color": "#312E81",
     "theme": "dark"
   },
+  "icon": "media/icon.png",
+  "l10n": "./l10n",
   "main": "./dist/extension.js",
   "contributes": {
     "viewsContainers": {
@@ -39,7 +45,7 @@
       "gitBranchTree": [
         {
           "id": "gitBranchTree.view",
-          "name": "Branches",
+          "name": "%view.branches%",
           "icon": "media/branch-tree.svg"
         }
       ]
@@ -47,54 +53,54 @@
     "viewsWelcome": [
       {
         "view": "gitBranchTree.view",
-        "contents": "현재 워크스페이스에서 git 저장소를 찾지 못했어요.\ngit 저장소가 있는 폴더를 열고 새로고침해 주세요.\n[새로고침](command:gitBranchTree.refresh)"
+        "contents": "%welcome%"
       }
     ],
     "commands": [
       {
         "command": "gitBranchTree.refresh",
-        "title": "새로고침",
+        "title": "%cmd.refresh%",
         "category": "Branch Tree",
         "icon": "$(refresh)"
       },
       {
         "command": "gitBranchTree.checkout",
-        "title": "체크아웃",
+        "title": "%cmd.checkout%",
         "category": "Branch Tree"
       },
       {
         "command": "gitBranchTree.deleteLocalBranch",
-        "title": "브랜치 삭제 (로컬)",
+        "title": "%cmd.deleteLocal%",
         "category": "Branch Tree",
         "icon": "$(trash)"
       },
       {
         "command": "gitBranchTree.deleteRemoteBranch",
-        "title": "브랜치 삭제 (원격 서버)",
+        "title": "%cmd.deleteRemote%",
         "category": "Branch Tree",
         "icon": "$(trash)"
       },
       {
         "command": "gitBranchTree.fetchPrune",
-        "title": "Fetch + Prune",
+        "title": "%cmd.fetchPrune%",
         "category": "Branch Tree",
         "icon": "$(sync)"
       },
       {
         "command": "gitBranchTree.createBranch",
-        "title": "새 브랜치 생성",
+        "title": "%cmd.createBranch%",
         "category": "Branch Tree",
         "icon": "$(add)"
       },
       {
         "command": "gitBranchTree.expandAll",
-        "title": "모두 펼치기",
+        "title": "%cmd.expandAll%",
         "category": "Branch Tree",
         "icon": "$(expand-all)"
       },
       {
         "command": "gitBranchTree.loadMoreCommits",
-        "title": "더보기",
+        "title": "%cmd.loadMore%",
         "category": "Branch Tree"
       }
     ],
@@ -175,7 +181,7 @@
     "package": "node esbuild.js --production",
     "check-types": "tsc --noEmit",
     "test": "vitest run",
-    "vsix": "vsce package"
+    "vsix": "mkdir -p release && vsce package --out release"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",

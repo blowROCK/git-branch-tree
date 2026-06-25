@@ -1,0 +1,13 @@
+{
+  "description": "브랜치 이름의 '/'를 임의 뎁스 폴더 트리로 보여주고, 클릭 체크아웃·커밋 미리보기·삭제·새 브랜치·fetch+prune 까지 하는 경량 익스텐션",
+  "view.branches": "브랜치",
+  "welcome": "현재 워크스페이스에서 git 저장소를 찾지 못했어요.\ngit 저장소가 있는 폴더를 열고 새로고침해 주세요.\n[새로고침](command:gitBranchTree.refresh)",
+  "cmd.refresh": "새로고침",
+  "cmd.checkout": "체크아웃",
+  "cmd.deleteLocal": "브랜치 삭제 (로컬)",
+  "cmd.deleteRemote": "브랜치 삭제 (원격 서버)",
+  "cmd.fetchPrune": "Fetch + Prune",
+  "cmd.createBranch": "새 브랜치 생성",
+  "cmd.expandAll": "모두 펼치기",
+  "cmd.loadMore": "더보기"
+}
