@@ -2,7 +2,7 @@
   "name": "git-branch-tree",
   "displayName": "Git Branch Tree",
   "description": "%description%",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "publisher": "zzumbong",
   "license": "MIT",
   "repository": {

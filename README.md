@@ -1,53 +1,69 @@
 # Git Branch Tree
 
-브랜치 이름의 `/` 를 **임의 뎁스 폴더 트리**로 펼쳐 보여주고, **leaf 브랜치를 클릭하면 체크아웃**하는 경량 VSCode 익스텐션.
+**English** | [한국어](README.ko.md)
 
-기존 브랜치 트리 익스텐션들이 1뎁스만 접는 한계를, `foo/bar/abc/ticket-1234` 같은 3~4뎁스 전략에서도 제대로 펼쳐 해결합니다.
+A lightweight VS Code extension that expands the `/` in branch names into an **arbitrary-depth folder tree** and **checks out a leaf branch on click**.
 
-## 동작
+Other branch-tree extensions only collapse a single level. Git Branch Tree fully expands deep naming schemes like `feature/alerts/news/STK-380`, so 3–4 level strategies stay readable.
+
+## Screenshots
+
+| Local | Remote |
+| --- | --- |
+| <img src="screenshot/screenshot_2.png" width="420" alt="Local branches expanded into a multi-depth folder tree" /> | <img src="screenshot/screenshot_1.png" width="420" alt="Remote section with commits under a release branch" /> |
+| Local branches expanded into a multi-depth folder tree, with recent commits under the current branch. | The same tree for the Remote section, with commits under a `release` branch. |
+
+## How it works
 
 ```
-Local                     ← 현재 워크스페이스 repo 의 로컬 브랜치
- ┣ sv-experience          (폴더)
- ┃ ┗ epic-p1
- ┃   ┗ henby              (브랜치 · 현재 ✓)
- ┗ master                 (브랜치)
-Remote                    ← refs/remotes (네트워크 없이 로컬 캐시)
- ┗ origin                 (리모트 2개 이상일 때만 노출)
+Local                       ← local branches of the current workspace repo
+ ┣ feature
+ ┃ ┗ alerts
+ ┃   ┗ news
+ ┃     ┗ STK-380            (branch · current ✓)
+ ┗ master                   (branch)
+Remote                      ← refs/remotes (local cache, no network)
+ ┗ origin                   (shown only when there are 2+ remotes)
    ┗ ...
 ```
 
-- **단일 클릭은 선택만**(동작 없음). 동작은 모두 **우클릭 컨텍스트 메뉴**.
-- **체크아웃**: 로컬은 `git switch <name>`, 리모트 전용 브랜치는 DWIM 으로 같은 이름 로컬 추적 브랜치 자동 생성 후 전환. 더티 트리 등으로 막히면 git 에러를 그대로 알림.
-- **브랜치 삭제**:
-  - 로컬 — 모달에서 `[삭제]`(안전, `-d`) / `[강제 삭제]`(`-D`). 미병합이 거부되면 강제 여부 재확인.
-  - 원격 서버 — `git push <remote> --delete`. 되돌릴 수 없어 모달 확인 필수.
-- **새 브랜치 생성**: 툴바 `+` 또는 브랜치 우클릭(그 지점에서 분기). `git switch -c`.
-- **Fetch + Prune**: 툴바 `sync` 또는 Remote 섹션 우클릭. 서버에서 사라진 추적 ref 정리.
-- 현재 브랜치는 **초록 라벨 + ● 배지** + 뷰 열 때 자동 노출.
-- 리모트는 1개면 이름을 접고, 2개 이상이면 리모트 이름 폴더를 한 단계 둠.
-- 새로고침: 툴바 버튼 + 동작 후 자동 + 뷰가 다시 보일 때.
+- **A single click only selects** (no action). Every action lives in the **right-click context menu**.
+- **Checkout**: local branches use `git switch <name>`; remote-only branches use DWIM to auto-create a local tracking branch of the same name and switch to it. If something blocks it (dirty tree, etc.), the raw git error is surfaced as-is.
+- **Commit history**: expand a branch to see its recent commits (5 at a time). A **Load more** node pulls the next page.
+- **Delete a branch**:
+  - Local — a modal offers `[Delete]` (safe, `-d`) / `[Force delete]` (`-D`). If an unmerged branch is rejected, it re-confirms before forcing.
+  - Remote — `git push <remote> --delete`. Irreversible, so a modal confirmation is required.
+- **Create a branch**: the toolbar `+` or right-click a branch (forks from that point). `git switch -c`.
+- **Fetch + Prune**: the toolbar `sync` button or right-click the Remote section. Cleans up tracking refs that no longer exist on the server.
+- The current branch gets a **green label + ● badge** and is **auto-revealed** when the view opens.
+- One remote collapses its name; two or more keep a remote-name folder level.
+- **Expand all**: the toolbar `expand-all` button opens every folder at once.
+- Refresh: toolbar button + automatically after actions + when the view becomes visible again.
 
-데이터는 전부 로컬 `git` CLI 로만 읽습니다. 삭제(원격)·fetch 만 네트워크를 쓰고, 그 외엔 **OAuth/네트워크 없음.**
+All data is read from the local `git` CLI only. Only delete (remote) and fetch use the network — everything else is **OAuth-free and network-free.**
 
-## 개발
+## Development
 
 ```bash
 npm install
-npm test            # 순수 트리 빌더 단위 테스트(vitest)
-npm run check-types # 타입 체크
-npm run compile     # esbuild 번들 → dist/extension.js
+npm test            # unit tests for the pure tree builder (vitest)
+npm run check-types # type check
+npm run compile     # esbuild bundle → dist/extension.js
 ```
 
-VSCode 에서 이 폴더를 열고 **F5** → Extension Development Host 가 뜨고, 활동 막대에 Branch Tree 아이콘이 생깁니다.
+Open this folder in VS Code and press **F5** → an Extension Development Host launches and a Branch Tree icon appears in the Activity Bar.
 
-## 패키징(.vsix 사이드로드)
+## Packaging (.vsix sideload)
 
 ```bash
-npm run vsix        # git-branch-tree-0.0.1.vsix 생성
-code --install-extension git-branch-tree-0.0.1.vsix
+npm run vsix        # builds release/git-branch-tree-<version>.vsix
+code --install-extension release/git-branch-tree-*.vsix
 ```
 
-## 범위
+## Scope
 
-체크아웃 · 삭제(로컬/원격) · 새 브랜치 생성 · fetch+prune. 이름변경/별도 검색창은 제외(검색은 트리뷰 내장 타입어헤드로 충분). 단일 repo 가정.
+Checkout · delete (local/remote) · create branch · fetch+prune · commit history. Rename and a separate search box are out of scope (the tree view's built-in type-ahead is enough for search). Assumes a single repo.
+
+## License
+
+[MIT](LICENSE)
